@@ -5,7 +5,7 @@ const GITHUB_FILE = "resultados.json";      // Nombre del archivo en tu repo
 const GITHUB_TOKEN = "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"; // Tu token
 
 // URL pública para leer (usando jsDelivr)
-const URL_PUBLICA = `https://cdn.jsdelivr.net/gh/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_FILE}`;
+const URL_PUBLICA = `https://github.com/deathlink13/Index_PSYCO/blob/main/resultados.json${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_FILE}`;
 
 // URL para escribir (API de GitHub)
 const URL_API = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
@@ -352,4 +352,5 @@ window.onload = function () {
     mostrar("adminLogin");
   }
 };
+
 
