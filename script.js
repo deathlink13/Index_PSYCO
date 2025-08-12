@@ -1,26 +1,23 @@
+// === CONFIGURACIÓN DE GITHUB ===
+const GITHUB_USER = "TU_USUARIO";           // 🔥 Reemplaza con tu usuario de GitHub
+const GITHUB_REPO = "TU_REPOSITORIO";       // 🔥 Reemplaza con el nombre de tu repo
+const GITHUB_FILE = "resultados.json";      // Nombre del archivo en tu repo
+const GITHUB_TOKEN = "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"; // Tu token
+
+// URL pública para leer (usando jsDelivr)
+const URL_PUBLICA = `https://cdn.jsdelivr.net/gh/${GITHUB_USER}/${GITHUB_REPO}/${GITHUB_FILE}`;
+
+// URL para escribir (API de GitHub)
+const URL_API = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${GITHUB_FILE}`;
+
 // === PREGUNTAS Y TÍTULOS BDI ===
 const titulosBDI = [
-  "Tristeza",
-  "Pesimismo",
-  "Fracaso",
-  "Pérdida de Placer",
-  "Sentimientos de Culpa",
-  "Sentimientos de Castigo",
-  "Disconformidad con uno mismo.",
-  "Autocrítica",
-  "Pensamientos o Deseos Suicidas",
-  "Llanto",
-  "Agitación",
-  "Pérdida de Interés",
-  "Indecisión",
-  "Desvalorización",
-  "Pérdida de Energía",
-  "Cambios en los Hábitos de Sueño",
-  "Irritabilidad",
-  "Cambios en el Apetito",
-  "Dificultad de Concentración",
-  "Cansancio o Fatiga",
-  "Pérdida de Interés en el Sexo"
+  "Tristeza", "Pesimismo", "Fracaso", "Pérdida de Placer", "Sentimientos de Culpa",
+  "Sentimientos de Castigo", "Disconformidad con uno mismo.", "Autocrítica",
+  "Pensamientos o Deseos Suicidas", "Llanto", "Agitación", "Pérdida de Interés",
+  "Indecisión", "Desvalorización", "Pérdida de Energía", "Cambios en los Hábitos de Sueño",
+  "Irritabilidad", "Cambios en el Apetito", "Dificultad de Concentración",
+  "Cansancio o Fatiga", "Pérdida de Interés en el Sexo"
 ];
 
 const preguntasBDI = [
@@ -49,27 +46,11 @@ const preguntasBDI = [
 
 // === PREGUNTAS BAI ===
 const preguntasBAI = [
-  "Torpe o entumecido",
-  "Acalorado",
-  "Con temblor en las piernas",
-  "Incapaz de relajarse",
-  "Con temor a que ocurra lo peor",
-  "Mareado, o que se le va la cabeza",
-  "Con latidos del corazón fuertes y acelerados",
-  "Inestable",
-  "Atemorizado o asustado",
-  "Nervioso",
-  "Con sensación de bloqueo",
-  "Con temblores en las manos",
-  "Inquieto, inseguro",
-  "Con miedo a perder el control",
-  "Con sensación de ahogo",
-  "Con temor a morir",
-  "Con miedo",
-  "Con problemas digestivos",
-  "Con desvanecimientos",
-  "Con rubor facial",
-  "Con sudores, fríos o calientes"
+  "Torpe o entumecido", "Acalorado", "Con temblor en las piernas", "Incapaz de relajarse",
+  "Con temor a que ocurra lo peor", "Mareado, o que se le va la cabeza", "Con latidos del corazón fuertes y acelerados",
+  "Inestable", "Atemorizado o asustado", "Nervioso", "Con sensación de bloqueo", "Con temblores en las manos",
+  "Inquieto, inseguro", "Con miedo a perder el control", "Con sensación de ahogo", "Con temor a morir",
+  "Con miedo", "Con problemas digestivos", "Con desvanecimientos", "Con rubor facial", "Con sudores, fríos o calientes"
 ];
 
 const nivelesBAI = ["En absoluto", "Levemente", "Moderadamente", "Severamente"];
@@ -95,10 +76,7 @@ function comenzar() {
 
   const nombreCompleto = `${nombre1} ${nombre2} ${apellido1} ${apellido2}`.replace(/\s+/g, ' ').trim();
 
-  window.datosAlumno = { 
-    nombre: nombreCompleto,
-    correo: correo 
-  };
+  window.datosAlumno = { nombre: nombreCompleto, correo: correo };
 
   cargarPreguntasBDI();
   mostrar("evaluacionBDI");
@@ -142,7 +120,7 @@ function enviarBDI() {
   mostrar("evaluacionBAI");
 }
 
-function enviarBAI() {
+async function enviarBAI() {
   const respuestas = [];
   for (let i = 0; i < preguntasBAI.length; i++) {
     const r = document.querySelector(`input[name='bai${i}']:checked`);
@@ -157,19 +135,16 @@ function enviarBAI() {
   const nivelBDI = totalBDI < 14 ? "Depresión mínima" : totalBDI < 20 ? "Depresión leve" : totalBDI < 29 ? "Depresión moderada" : "Depresión severa";
   const nivelBAI = totalBAI <= 21 ? "Ansiedad muy baja" : totalBAI <= 35 ? "Ansiedad moderada" : "Ansiedad severa";
 
-  // Mensaje de orientación limpio, sin caracteres raros
   const orientacion = (totalBDI >= 20 || totalBAI >= 36)
-    ? "\nPuedes acercarte al área de psicopedagogía (segunda planta, al lado de coordinación) para recibir apoyo personalizado." 
+    ? "\nPuedes acercarte al área de psicopedagogía (segunda planta, al lado de coordinación) para recibir apoyo personalizado."
     : "";
 
   const texto = `Nombre: ${window.datosAlumno.nombre}
 Correo: ${window.datosAlumno.correo}
 Fecha: ${new Date().toLocaleString("es-ES")}
-
 Inventario de Depresión de Beck (BDI)
 Puntaje: ${totalBDI}
 Interpretación: ${nivelBDI}
-
 Inventario de Ansiedad de Beck (BAI)
 Puntaje: ${totalBAI}
 Interpretación: ${nivelBAI}${orientacion}`;
@@ -185,81 +160,116 @@ Interpretación: ${nivelBAI}${orientacion}`;
     totalBAI,
     totalBAI_raw: respuestas
   };
-  const resultados = JSON.parse(localStorage.getItem("resultados") || "[]");
-  resultados.push(resultado);
-  localStorage.setItem("resultados", JSON.stringify(resultados));
 
-  mostrar("resultado");
+  // Leer datos actuales y agregar nuevo
+  try {
+    const response = await fetch(URL_PUBLICA);
+    let resultados = [];
+    if (response.ok) {
+      resultados = await response.json();
+    }
+
+    resultados.push(resultado);
+
+    // Obtener SHA del archivo (necesario para actualizar)
+    const shaResponse = await fetch(URL_API, {
+      headers: { 'Authorization': `token ${GITHUB_TOKEN}` }
+    });
+    const shaData = await shaResponse.json();
+    const sha = shaData.sha;
+
+    // Guardar en GitHub
+    await fetch(URL_API, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${GITHUB_TOKEN}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: `Nuevo resultado: ${window.datosAlumno.nombre}`,
+        content: btoa(unescape(encodeURIComponent(JSON.stringify(resultados, null, 2)))),
+        sha
+      })
+    });
+
+    mostrar("resultado");
+  } catch (err) {
+    console.error("Error al guardar en GitHub:", err);
+    alert("No se pudo guardar el resultado. Intenta de nuevo.");
+  }
 }
 
 function descargarPDF() {
   const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({
-    format: 'a4',
-    unit: 'mm'
-  });
-
+  const doc = new jsPDF();
   const texto = document.getElementById("textoResultado").innerText;
   const lines = doc.splitTextToSize(texto, 180);
-  doc.setFont("helvetica");
-  doc.setFontSize(12);
-  doc.text(15, 20, lines);
-
+  doc.text(10, 20, lines);
   const nombreArchivo = window.datosAlumno.nombre.replace(/\s+/g, "_");
   doc.save(`resultado_${nombreArchivo}.pdf`);
 }
 
 // === PARTE DEL ADMINISTRADOR ===
-function accederAdmin() {
+async function accederAdmin() {
   const usuario = document.getElementById("usuarioAdmin").value.trim();
   const clave = document.getElementById("claveAdmin").value.trim();
 
   if (usuario === "administradorPSY" && clave === "12345") {
     mostrar("adminPanel");
-    cargarResultadosAdmin();
+    await cargarResultadosAdmin();
   } else {
     alert("Usuario o contraseña incorrectos");
   }
 }
 
-function cargarResultadosAdmin() {
+async function cargarResultadosAdmin() {
   const tabla = document.getElementById("tablaAdmin");
   if (!tabla) return;
 
-  tabla.innerHTML = "";
-  const resultados = JSON.parse(localStorage.getItem("resultados") || "[]");
+  tabla.innerHTML = "<tr><td colspan='7'>Cargando...</td></tr>";
 
-  if (resultados.length === 0) {
-    tabla.innerHTML = "<tr><td colspan='7'>No hay resultados registrados.</td></tr>";
-    return;
+  try {
+    const response = await fetch(URL_PUBLICA);
+    if (!response.ok) throw new Error("No se pudo cargar");
+
+    const resultados = await response.json();
+
+    tabla.innerHTML = "";
+    if (resultados.length === 0) {
+      tabla.innerHTML = "<tr><td colspan='7'>No hay resultados registrados.</td></tr>";
+      return;
+    }
+
+    resultados.slice().reverse().forEach((res, index) => {
+      const nivelBDI = res.totalBDI < 14 ? "Sin síntomas" :
+                      res.totalBDI < 20 ? "Leve" :
+                      res.totalBDI < 29 ? "Moderado" : "Grave";
+
+      const nivelBAI = res.totalBAI <= 21 ? "Sin síntomas" :
+                      res.totalBAI <= 35 ? "Moderado" : "Grave";
+
+      const colorBDI = res.totalBDI >= 29 ? 'red' : res.totalBDI >= 20 ? 'orange' : 'green';
+      const colorBAI = res.totalBAI > 35 ? 'red' : res.totalBAI > 21 ? 'orange' : 'green';
+
+      const fila = document.createElement("tr");
+      fila.innerHTML = `
+        <td>${res.nombre}</td>
+        <td>${res.correo}</td>
+        <td>${res.fecha}</td>
+        <td>${res.totalBAI} (${nivelBAI})</td>
+        <td>${res.totalBDI} (${nivelBDI})</td>
+        <td style="text-align: left; padding: 8px; font-size: 13px;">
+          <strong style="color: ${colorBDI};">Depresión:</strong> ${nivelBDI} (${res.totalBDI}/63)<br>
+          <strong style="color: ${colorBAI};">Ansiedad:</strong> ${nivelBAI} (${res.totalBAI}/66)
+        </td>
+        <td><button onclick="descargarPDFAdmin(${index})">PDF</button></td>
+      `;
+      tabla.appendChild(fila);
+    });
+  } catch (err) {
+    tabla.innerHTML = "<tr><td colspan='7'>Error al cargar datos.</td></tr>";
+    console.error("Error al cargar desde GitHub:", err);
   }
-
-  resultados.slice().reverse().forEach((res, index) => {
-    const nivelBDI = res.totalBDI < 14 ? "Sin síntomas" :
-                    res.totalBDI < 20 ? "Leve" :
-                    res.totalBDI < 29 ? "Moderado" : "Grave";
-
-    const nivelBAI = res.totalBAI <= 21 ? "Sin síntomas" :
-                    res.totalBAI <= 35 ? "Moderado" : "Grave";
-
-    const colorBDI = res.totalBDI >= 29 ? 'red' : res.totalBDI >= 20 ? 'orange' : 'green';
-    const colorBAI = res.totalBAI > 35 ? 'red' : res.totalBAI > 21 ? 'orange' : 'green';
-
-    const fila = document.createElement("tr");
-    fila.innerHTML = `
-      <td>${res.nombre}</td>
-      <td>${res.correo}</td>
-      <td>${res.fecha}</td>
-      <td>${res.totalBAI} (${nivelBAI})</td>
-      <td>${res.totalBDI} (${nivelBDI})</td>
-      <td style="text-align: left; padding: 8px; font-size: 13px;">
-        <strong style="color: ${colorBDI};">Depresión:</strong> ${nivelBDI} (${res.totalBDI}/63)<br>
-        <strong style="color: ${colorBAI};">Ansiedad:</strong> ${nivelBAI} (${res.totalBAI}/66)
-      </td>
-      <td><button onclick="descargarPDFAdmin(${index})">PDF</button></td>
-    `;
-    tabla.appendChild(fila);
-  });
 }
 
 function filtrarResultados() {
@@ -278,70 +288,60 @@ function cerrarSesion() {
 }
 
 function descargarPDFAdmin(index) {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({
-    format: 'a4',
-    unit: 'mm'
-  });
+  fetch(URL_PUBLICA)
+    .then(r => r.json())
+    .then(resultados => {
+      const res = resultados[index];
+      if (!res) return alert("Resultado no encontrado.");
 
-  const resultados = JSON.parse(localStorage.getItem("resultados") || "[]");
-  const res = resultados[index];
-  if (!res) return alert("Resultado no encontrado.");
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      let y = 20;
 
-  let y = 20;
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(14);
-  doc.text(`Resultado de: ${res.nombre}`, 15, y); y += 10;
+      doc.setFontSize(14);
+      doc.text(`Resultado de: ${res.nombre}`, 15, y); y += 10;
+      doc.setFontSize(12);
+      doc.text(`Correo: ${res.correo}`, 15, y); y += 8;
+      doc.text(`Fecha: ${res.fecha}`, 15, y); y += 12;
 
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(12);
-  doc.text(`Correo: ${res.correo}`, 15, y); y += 8;
-  doc.text(`Fecha: ${res.fecha}`, 15, y); y += 12;
+      doc.setFontSize(13);
+      doc.text("Inventario de Depresión de Beck (BDI)", 15, y); y += 8;
 
-  doc.setFont("helvetica", "bold");
-  doc.text("Inventario de Depresión de Beck (BDI)", 15, y); y += 8;
+      res.totalBDI_raw.forEach((val, i) => {
+        const pregunta = `${i+1}. ${titulosBDI[i]}: ${preguntasBDI[i][val]}`;
+        const lines = doc.splitTextToSize(pregunta, 170);
+        lines.forEach(line => {
+          if (y > 270) { doc.addPage(); y = 20; }
+          doc.text(15, y, line);
+          y += 6;
+        });
+        y += 2;
+      });
+      y += 8;
+      doc.text(`Total BDI: ${res.totalBDI}`, 15, y); y += 12;
 
-  doc.setFont("helvetica", "normal");
-  res.totalBDI_raw.forEach((val, i) => {
-    const pregunta = `${i+1}. ${titulosBDI[i]}: ${preguntasBDI[i][val]}`;
-    const lines = doc.splitTextToSize(pregunta, 170);
-    lines.forEach(line => {
-      if (y > 270) {
-        doc.addPage();
-        y = 20;
-      }
-      doc.text(15, y, line);
-      y += 6;
+      doc.text("Inventario de Ansiedad de Beck (BAI)", 15, y); y += 8;
+
+      res.totalBAI_raw.forEach((val, i) => {
+        const pregunta = `${i+1}. ${preguntasBAI[i]}: ${nivelesBAI[val]}`;
+        const lines = doc.splitTextToSize(pregunta, 170);
+        lines.forEach(line => {
+          if (y > 270) { doc.addPage(); y = 20; }
+          doc.text(15, y, line);
+          y += 6;
+        });
+        y += 2;
+      });
+      y += 8;
+      doc.text(`Total BAI: ${res.totalBAI}`, 15, y);
+
+      const nombreArchivo = res.nombre.replace(/\s/g, "_");
+      doc.save(`resultado_${nombreArchivo}.pdf`);
+    })
+    .catch(err => {
+      console.error("Error al generar PDF:", err);
+      alert("No se pudo cargar el resultado.");
     });
-    y += 2;
-  });
-  y += 8;
-  doc.setFont("helvetica", "bold");
-  doc.text(`Total BDI: ${res.totalBDI}`, 15, y); y += 12;
-
-  doc.setFont("helvetica", "bold");
-  doc.text("Inventario de Ansiedad de Beck (BAI)", 15, y); y += 8;
-
-  doc.setFont("helvetica", "normal");
-  res.totalBAI_raw.forEach((val, i) => {
-    const pregunta = `${i+1}. ${preguntasBAI[i]}: ${nivelesBAI[val]}`;
-    const lines = doc.splitTextToSize(pregunta, 170);
-    lines.forEach(line => {
-      if (y > 270) {
-        doc.addPage();
-        y = 20;
-      }
-      doc.text(15, y, line);
-      y += 6;
-    });
-    y += 2;
-  });
-  y += 8;
-  doc.setFont("helvetica", "bold");
-  doc.text(`Total BAI: ${res.totalBAI}`, 15, y);
-
-  const nombreArchivo = res.nombre.replace(/\s/g, "_");
-  doc.save(`resultado_${nombreArchivo}.pdf`);
 }
 
 // === ONLOAD ===
