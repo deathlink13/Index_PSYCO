@@ -1,6 +1,6 @@
 // === CONFIGURACIÓN DE GITHUB ===
-const GITHUB_USER = "TU_USUARIO";           // 🔥 Reemplaza con tu usuario de GitHub
-const GITHUB_REPO = "TU_REPOSITORIO";       // 🔥 Reemplaza con el nombre de tu repo
+const GITHUB_USER = "deathlink13";           // 🔥 Reemplaza con tu usuario de GitHub
+const GITHUB_REPO = "index_PSYCO";       // 🔥 Reemplaza con el nombre de tu repo
 const GITHUB_FILE = "resultados.json";      // Nombre del archivo en tu repo
 const GITHUB_TOKEN = "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"; // Tu token
 
@@ -352,3 +352,4 @@ window.onload = function () {
     mostrar("adminLogin");
   }
 };
+
